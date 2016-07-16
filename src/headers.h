@@ -19,3 +19,4 @@ const int MIN_PAGE_SIZE = 1024;     // minimum size of a page
 const int CHAR_SIZE = 1;            // size of a char variable, 1 byte
 
 #include "BlockFile.h"
+#include "DataStructure.h"
