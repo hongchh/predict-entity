@@ -115,7 +115,7 @@ void MedRank::findClosestPoint(const Vector* data, const Vector& q, int* index) 
     }
     sort(buff, buff + objNum);
     for (int i = 0; i < pointNum; ++i) {
-        index[i] = buff[objNum - pointNum + i].index;
+        index[i] = buff[i].index;
     }
     delete [] buff;
 }

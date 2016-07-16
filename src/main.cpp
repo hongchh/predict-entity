@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
         // output the medrank result
         fprintf(out, "[Query %3d (approximate)]: \n", i+1);
         for (int j = 0; j < TOP_N_CLOSEST_POINT; ++j) {
-            fprintf(out, "%6d", index[j]);
+            fprintf(out, "%12f", data[index[j]].distance(query[i]));
         }
         fprintf(out, "\n");
 
@@ -112,9 +112,9 @@ int main(int argc, char* argv[]) {
         // output the real top N closest points
         fprintf(out, "[Query %3d (real)]: \n", i+1);
         for (int j = 0; j < TOP_N_CLOSEST_POINT; ++j) {
-            fprintf(out, "%6d", index[j]);
+            fprintf(out, "%12f", data[index[j]].distance(query[i]));
         }
-        fprintf(out, "\n");
+        fprintf(out, "\n------------------------------------------------\n");
 
         // TODO
         // calculate overall ratio

@@ -85,7 +85,7 @@ void Util::preprocess(BTree* trees, const int& pageSize, Vector* data) {
         t = clock();
         for (int j = 0; j < dataSize; ++j) {
             buff[j].val = data[j] * randomVec[i];
-            buff[j].index = j + 1;
+            buff[j].index = j;
         }
         totalProjectionTime += clock()-t;
 
