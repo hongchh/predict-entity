@@ -102,7 +102,7 @@ void MedRank::medrank(const BTree* trees, const float* queryProjectVal, int& pro
     }
     // save index
     map<int, int>::iterator it = mark.begin();
-    for (int i = 0; it != mark.end(); ++it, ++i) {
+    for (int i = 0; i < pointNum; ++it, ++i) {
         index[i] = it->first;
     }
 }
@@ -117,4 +117,5 @@ void MedRank::findClosestPoint(const Vector* data, const Vector& q, int* index) 
     for (int i = 0; i < pointNum; ++i) {
         index[i] = buff[objNum - pointNum + i].index;
     }
+    delete [] buff;
 }
