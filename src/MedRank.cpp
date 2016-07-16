@@ -108,7 +108,7 @@ void MedRank::medrank(const BTree* trees, const float* queryProjectVal, int& pro
 }
 
 void MedRank::findClosestPoint(const Vector* data, const Vector& q, int* index) {
-    Buffer buff = new Buffer[objNum];
+    Buffer* buff = new Buffer[objNum];
     for (int i = 0; i < objNum; ++i) {
         buff[i].val   = data[i].distance(q);
         buff[i].index = i;
