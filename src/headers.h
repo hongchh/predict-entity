@@ -21,3 +21,4 @@ const int CHAR_SIZE = 1;            // size of a char variable, 1 byte
 #include "BlockFile.h"
 #include "DataStructure.h"
 #include "BTree.h"
+#include "Util.h"
