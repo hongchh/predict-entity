@@ -130,3 +130,25 @@ void Util::project(const Vector& v, float* vals) const {
         vals[i] = randomVec[i] * v;
     }
 }
+
+int Util::predict(const Vector* data, const int* index, const int& indexSize) const {
+    // counting
+    map<int, int> mark;
+    for (int i = 0; i < indexSize; ++i) {
+        if (mark.find(data[index[i]].type) != mark.end()) {
+            ++mark[data[index[i]].type];
+        } else {
+            mark[data[index[i]].type] = 1;
+        }
+    }
+    // find max
+    map<int, int>::iterator it = mark.begin();
+    int maxCount = 0, type;
+    for (; it != mark.end(); ++it) {
+        if (maxCount < it->second) {
+            maxCount = it->second;
+            type = it->first;
+        }
+    }
+    return type;
+}

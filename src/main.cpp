@@ -26,7 +26,8 @@ int stringToInt(const char* str) {
 int main(int argc, char* argv[]) {
     char* dataFile  = NULL;
     char* queryFile = NULL;
-    int*  index     = NULL;
+    int*  index_a   = NULL;
+    int*  index_r   = NULL;
     int   dataSize  = 0;
     int   querySize = 0;
     int   dimision  = 0;
@@ -79,9 +80,11 @@ int main(int argc, char* argv[]) {
     printf("[Main] read query data time: %fs.\n", ((float)t)/CLOCKS_PER_SEC);
 
     MedRank m(dataSize, LINE_NUM, TOP_N_CLOSEST_POINT, MINFREQ);
-    index = new int[TOP_N_CLOSEST_POINT];
+    index_a = new int[TOP_N_CLOSEST_POINT];
+    index_r = new int[TOP_N_CLOSEST_POINT];
 
     FILE* out = fopen("./data/detail.txt", "w");
+    FILE* out2 = fopen("./data/detail-2.txt", "w");
     int totalQueryTime = 0, totalProbNum = 0, totalFindTime = 0;
     float totalRatio = 0.0;
     printf("[Main] medranking ...\n");
@@ -93,34 +96,36 @@ int main(int argc, char* argv[]) {
         t = clock();
         // use the b+ tree index and <queryProjectVal> to find a approximate closest point
         // save the number of accessing pages in <probNum>
-        m.medrank(trees, queryProjectVal, probNum, index);
+        m.medrank(trees, queryProjectVal, probNum, index_a);
         totalQueryTime += clock() - t;
         totalProbNum += probNum;
 
         // output the medrank result
         fprintf(out, "[Query %3d (approximate)]: \n", i+1);
         for (int j = 0; j < TOP_N_CLOSEST_POINT; ++j) {
-            fprintf(out, "%12f", data[index[j]].distance(query[i]));
+            fprintf(out, "%12f", data[index_a[j]].distance(query[i]));
         }
         fprintf(out, "\n");
 
         t = clock();
         // find the real closest point
-        m.findClosestPoint(data, query[i], index);
+        m.findClosestPoint(data, query[i], index_r);
         totalFindTime += clock() - t;
 
         // output the real top N closest points
         fprintf(out, "[Query %3d (real)]: \n", i+1);
         for (int j = 0; j < TOP_N_CLOSEST_POINT; ++j) {
-            fprintf(out, "%12f", data[index[j]].distance(query[i]));
+            fprintf(out, "%12f", data[index_r[j]].distance(query[i]));
         }
         fprintf(out, "\n------------------------------------------------\n");
 
-        // TODO
-        // calculate overall ratio
         // predict type (entity)
+        int type_a = u.predict(data, index_a, TOP_N_CLOSEST_POINT);
+        int type_r = u.predict(data, index_r, TOP_N_CLOSEST_POINT);
+        fprintf(out2, "[Query %3d] %6d (approximate), %6d(real)\n", i+1, type_a, type_r);
     }
     fclose(out);
+    fclose(out2);
 
     // printf("[Main] average overall ratio: %f\n", totalRatio/querySize);
     printf("[Main] total query time: %fs\n", ((float)totalQueryTime)/CLOCKS_PER_SEC);
@@ -128,11 +133,12 @@ int main(int argc, char* argv[]) {
     printf("[Main] total time for finding closest point: %fs\n", ((float)totalFindTime)/CLOCKS_PER_SEC);
     printf("[Main] average time for finding closest point: %fs\n", ((float)totalFindTime/querySize)/CLOCKS_PER_SEC);
     printf("[Main] average probNum per line: %f\n", (float)totalProbNum/querySize/LINE_NUM);
-    printf("[Main] please checkout ./data/detail.txt for more detail\n");
+    printf("[Main] please checkout ./data/detail.txt and ./data/detail-2.txt for more detail\n");
 
     delete [] dataFile;
     delete [] queryFile;
-    delete [] index;
+    delete [] index_a;
+    delete [] index_r;
     delete [] trees;
     delete [] data;
     delete [] query;

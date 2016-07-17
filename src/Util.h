@@ -15,6 +15,9 @@ public:
     /* project a vector <v> on <randomVectorNum> lines
      * save the project value in <vals> */
     void project(const Vector& v, float* vals) const;
+    /* predict the type
+     * return the type */
+    int predict(const Vector* data, const int* index, const int& indexSize) const;
 private:
     /* generate a random value that satisfy normal distribution */
     float normalDistribution();
