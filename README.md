@@ -9,7 +9,7 @@
 ###example:
 
 <p>make</p>
-<p>./medrank -n 60000 -d 784 -qn 100 -ds ./data/Mnist.ds -qs ./data/Mnist.q</p>
+<p>./medrank -n 60000 -d 3 -qn 100 -ds ./data/color-p.txt -qs ./data/color-q.txt</p>
 
 * you must ensure that the input data files are text file
 * contact: hongchh_sysu@qq.com

@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
 
     FILE* out = fopen("./data/detail.txt", "w");
     FILE* out2 = fopen("./data/detail-2.txt", "w");
-    int totalQueryTime = 0, totalProbNum = 0, totalFindTime = 0;
+    int totalQueryTime = 0, totalProbNum = 0, totalFindTime = 0, hit = 0;
     float totalRatio = 0.0;
     printf("[Main] medranking ...\n");
     for (int i = 0; i < querySize; ++i) {
@@ -122,7 +122,8 @@ int main(int argc, char* argv[]) {
         // predict type (entity)
         int type_a = u.predict(data, index_a, TOP_N_CLOSEST_POINT);
         int type_r = u.predict(data, index_r, TOP_N_CLOSEST_POINT);
-        fprintf(out2, "[Query %3d] %6d (approximate), %6d(real)\n", i+1, type_a, type_r);
+        fprintf(out2, "[Query %3d] %6d (approximate), %6d (real)\n", i+1, type_a, type_r);
+        if (type_a == type_r) ++hit;
     }
     fclose(out);
     fclose(out2);
@@ -133,6 +134,7 @@ int main(int argc, char* argv[]) {
     printf("[Main] total time for finding closest point: %fs\n", ((float)totalFindTime)/CLOCKS_PER_SEC);
     printf("[Main] average time for finding closest point: %fs\n", ((float)totalFindTime/querySize)/CLOCKS_PER_SEC);
     printf("[Main] average probNum per line: %f\n", (float)totalProbNum/querySize/LINE_NUM);
+    printf("[Main] hit ratio: %f\n", (float)hit / querySize);
     printf("[Main] please checkout ./data/detail.txt and ./data/detail-2.txt for more detail\n");
 
     delete [] dataFile;
