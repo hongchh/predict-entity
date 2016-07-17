@@ -118,6 +118,7 @@ int main(int argc, char* argv[]) {
 
         // TODO
         // calculate overall ratio
+        // predict type (entity)
     }
     fclose(out);
 

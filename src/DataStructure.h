@@ -2,12 +2,13 @@
 #define __DATASTRUCTURE__
 
 struct Vector {
-    Vector() {}
+    Vector(): dimision(0), type(0), dim(0) {}
     ~Vector();
     void init(const int& dimision = 0);
     float operator*(const Vector& v) const;
     float distance(const Vector& v) const;
-    int dimision;  // this dimision of a vector
+    int dimision;  // the dimision of a vector
+    int type;      // the type of a vector
     float* dim;    // the value in each dimision of a vector
 };
 

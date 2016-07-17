@@ -63,11 +63,11 @@ void Util::preprocess(BTree* trees, const int& pageSize, Vector* data) {
     int t = clock();
     for (int k = 0; k < dataSize; ++k) {
         int val;
-        fscanf(in, "%d", &val);
-        // fscanf(in, "%f", &data[k].dim[0]);
+        fscanf(in, "%d", &data[k].type);
+        // fscanf(in, "%f", &data[k].type);
         for (int i = 0; i < data[k].dimision; ++i) {
-            fscanf(in, "%d", &val);
             // fscanf(in, "%f", &data[k].dim[i]);
+            fscanf(in, "%d", &val);
             data[k].dim[i] = (float)val;
         }
     }
@@ -117,10 +117,7 @@ void Util::getQueryData(Vector* query) {
     }
     for (int i = 0; i < querySize; ++i) {
         int val;
-        fscanf(in, "%d", &val);
-        // fscanf(in, "%f", &query[i].dim[0]);
         for (int j = 0; j < query[i].dimision; ++j) {
-            // fscanf(in, "%f", &query[i].dim[j]);
             fscanf(in, "%d", &val);
             query[i].dim[j] = (float)val;
         }
