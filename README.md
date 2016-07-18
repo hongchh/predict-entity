@@ -9,7 +9,7 @@
 ###示例:
 
 * make
-* ./medrank -n 58951 -d 3 -qn 100 -ds ./data/color-d.txt -qs ./data/color-q.txt
+* ./predict -n 58951 -d 3 -qn 100 -ds ./data/color-d.txt -qs ./data/color-q.txt
 
 ###参数说明:
 * -n: 数据集的大小

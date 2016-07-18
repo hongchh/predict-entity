@@ -2,8 +2,8 @@ SRCS = src/DataStructure.cpp src/Util.cpp src/BTree.cpp src/BlockFile.cpp src/Me
 OBJS = $(SRCS:.cpp=.o)
 CP = g++
 
-medrank: $(OBJS)
-	$(CP) -o medrank $(OBJS) src/main.cpp
+predict: $(OBJS)
+	$(CP) -o predict $(OBJS) src/main.cpp
 
 DataStructure.o: src/DataStructure.h src/DataStructure.cpp
 	$(CP) -c src/DataStructure.cpp
@@ -21,4 +21,4 @@ MedRank.o: src/MedRank.h src/MedRank.cpp
 	$(CP) -c src/MedRank.cpp
 
 clean:
-	-rm $(OBJS) medrank
+	-rm $(OBJS) predict
