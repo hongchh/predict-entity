@@ -60,7 +60,6 @@ void Util::preprocess(BTree* trees, const int& pageSize, Vector* data) {
         printf("[Util] preprocess(), can not open data file.\n");
         return;
     }
-    int t = clock();
     for (int k = 0; k < dataSize; ++k) {
         int val;
         fscanf(in, "%d", &data[k].type);
@@ -71,23 +70,18 @@ void Util::preprocess(BTree* trees, const int& pageSize, Vector* data) {
             data[k].dim[i] = (float)val;
         }
     }
-    t = clock()-t;
-    printf("[Util] read training data time: %fs.\n", ((float)t)/CLOCKS_PER_SEC);
     fclose(in);
 
     /* sort the value on the <randomVectorNum> lines
      * build b+ tree index */
     Buffer* buff = new Buffer[dataSize];
     char treeFileName[] = "./data/tree/***.tree";
-    int totalIndexingTime = 0, totalProjectionTime = 0;
     for (int i = 0; i < randomVectorNum; ++i) {
         // projection
-        t = clock();
         for (int j = 0; j < dataSize; ++j) {
             buff[j].val = data[j] * randomVec[i];
             buff[j].index = j;
         }
-        totalProjectionTime += clock()-t;
 
         treeFileName[12] = '0' + i / 100;
         treeFileName[13] = '0' + (i % 100) / 10;
@@ -95,16 +89,9 @@ void Util::preprocess(BTree* trees, const int& pageSize, Vector* data) {
         sort(buff, buff + dataSize);
 
         // indexing
-        t = clock();
         trees[i].init(treeFileName, pageSize);
         trees[i].bulkLoad(buff, dataSize);
-        totalIndexingTime += clock()-t;
     }
-
-    printf("[Util] total projecttion time: %fs.\n", ((float)totalProjectionTime)/CLOCKS_PER_SEC);
-    printf("[Util] average projecttion time: %fs.\n", ((float)totalProjectionTime/randomVectorNum)/CLOCKS_PER_SEC);
-    printf("[Util] total indexing time: %fs.\n", ((float)totalIndexingTime)/CLOCKS_PER_SEC);
-    printf("[Util] average indexing time: %fs.\n", ((float)totalIndexingTime/randomVectorNum)/CLOCKS_PER_SEC);
 
     delete [] buff;
 }
