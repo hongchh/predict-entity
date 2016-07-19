@@ -249,9 +249,13 @@ make
 
 ####结果展示:
 * 程序运行结束之后将工作目录切换到check文件夹下，编译convert.cpp并执行
-* g++ convert.cpp -o convert
-* ./convert
-* convert运行结束之后check文件夹下会出现一个color.txt文件，将color.txt文件的内容复制之后粘贴到color_show.js文件中注释的地方，在浏览器中打开color_show.html即可看到预测结果。预测结果如下图所示
+
+<pre>
+g++ convert.cpp -o convert
+./convert
+</pre>
+
+* convert运行结束之后会在check文件夹下生成一个color_show.js文件，运行完convert之后直接在浏览器中打开color_show.html即可看到预测结果。预测结果如下图所示
 
 <img src="result.png">
 
