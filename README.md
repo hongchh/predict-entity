@@ -205,23 +205,24 @@ medrank算法部分，这部分基本步骤都跟前面介绍medrank算法时候
 通过本次实践，我们提出了解决实体推断问题的一种可行的方案，并且使用b+树配合medrank算法优化了查询效率，最后，我们通过进行多个实验验证方案的可行性。我们学习到了面对一个问题如何提出一种可行的解决方案，如何优化方案，如何验证方案的可行性。在优化过程中，学会了如何选择算法和数据结构，在验证模型对于低维度和高维度数据的适用性的过程中，学会了从多个方面验证结论的科学方法。最后，从训练集中提取部分数据得到一个可验证的查询集，这种验证方法是从论文《active learning for entity filtering》中学习到的，我们不仅收获多一种验证方式，也学会了从他人的论文中汲取优秀办法。
 
 ##参考文献
-【1】Damiano Spina，Maria-Hendrike Peetz，Maarten de Rijk，《active learning for entity filtering》
-【2】
+【1】Damiano Spina, Maria-Hendrike Peetz, Maarten de Rijk,《active learning for entity filtering》
+
+【2】R. Fagin, R. Kumar, and D. Sivakumar, 《efficient similarity search and classification via rank aggregation》
 
 ##附录
 
 ####实验环境:
-*操作系统: MacBook Pro OS X 10.11.5
-*处理器: 2.7 GHz Intel Core i5
-*内存: 16 GB 1867 MHz DDR3
+* 操作系统: MacBook Pro OS X 10.11.5
+* 处理器: 2.7 GHz Intel Core i5
+* 内存: 16 GB 1867 MHz DDR3
 
 ####运行代码:
-*请使用Makefile编译代码
-*使用下面示例给出的命令启动程序
-*本demo的输入为一个带entity的数据集和一个未知entity的查询集
-*运行demo之后可以根据数据集的entity预测查询集中每个数据对应的entity
-*entity可以理解为一种分类，头衔，标签等能够描述一个数据对象区别于其他数据对象的内容
-*示例:
+* 请使用Makefile编译代码
+* 使用下面示例给出的命令启动程序
+* 本demo的输入为一个带entity的数据集和一个未知entity的查询集
+* 运行demo之后可以根据数据集的entity预测查询集中每个数据对应的entity
+* entity可以理解为一种分类，头衔，标签等能够描述一个数据对象区别于其他数据对象的内容
+* 示例:
 <pre>
 make
 ./predict -n 58951 -d 3 -qn 100 -ds ./data/color-d.txt -qs ./data/color-q.txt
@@ -251,6 +252,7 @@ make
 * g++ convert.cpp -o convert
 * ./convert
 * convert运行结束之后check文件夹下会出现一个color.txt文件，将color.txt文件的内容复制之后粘贴到color_show.js文件中注释的地方，在浏览器中打开color_show.html即可看到预测结果。预测结果如下图所示
+
 <img src="result.png">
 
 ######(hongchh_sysu@qq.com)
