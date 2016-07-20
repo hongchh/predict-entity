@@ -222,10 +222,12 @@ medrank算法部分，这部分基本步骤都跟前面介绍medrank算法时候
 * 本demo的输入为一个带entity的数据集和一个未知entity的查询集
 * 运行demo之后可以根据数据集的entity预测查询集中每个数据对应的entity
 * entity可以理解为一种分类，头衔，标签等能够描述一个数据对象区别于其他数据对象的内容
-* 示例:
+* 示例(查询集数据量100、500、1000):
 <pre>
 make
-./predict -n 58951 -d 3 -qn 100 -ds ./data/color-d.txt -qs ./data/color-q.txt
+./predict -n 58951 -d 3 -qn 100 -ds ./data/color-d.txt -qs ./data/color-q-1.txt
+./predict -n 58951 -d 3 -qn 500 -ds ./data/color-d.txt -qs ./data/color-q-2.txt
+./predict -n 58951 -d 3 -qn 1000 -ds ./data/color-d.txt -qs ./data/color-q-3.txt
 </pre>
 
 ####参数说明:

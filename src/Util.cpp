@@ -63,7 +63,6 @@ void Util::preprocess(BTree* trees, const int& pageSize, Vector* data) {
     for (int k = 0; k < dataSize; ++k) {
         int val;
         fscanf(in, "%d", &data[k].type);
-        // fscanf(in, "%f", &data[k].type);
         for (int i = 0; i < data[k].dimision; ++i) {
             // fscanf(in, "%f", &data[k].dim[i]);
             fscanf(in, "%d", &val);
@@ -102,8 +101,9 @@ void Util::getQueryData(Vector* query) {
         printf("[Util] getQueryData(), can not open query file.\n");
         exit(0);
     }
+    int val;
     for (int i = 0; i < querySize; ++i) {
-        int val;
+        fscanf(in, "%d", &query[i].type);
         for (int j = 0; j < query[i].dimision; ++j) {
             fscanf(in, "%d", &val);
             query[i].dim[j] = (float)val;

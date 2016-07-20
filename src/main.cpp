@@ -26,8 +26,8 @@ int stringToInt(const char* str) {
 int main(int argc, char* argv[]) {
     char* dataFile  = NULL;
     char* queryFile = NULL;
-    int*  index_a   = NULL;
-    int*  index_r   = NULL;
+    int*  index_m   = NULL;
+    int*  index_b   = NULL;
     int   dataSize  = 0;
     int   querySize = 0;
     int   dimision  = 0;
@@ -79,51 +79,59 @@ int main(int argc, char* argv[]) {
     t = clock()-t;
     printf("[Main] read query data time: %fs.\n", ((float)t)/CLOCKS_PER_SEC);
 
+    // predicting
     MedRank m(dataSize, LINE_NUM, TOP_N_CLOSEST_POINT, MINFREQ);
-    index_a = new int[TOP_N_CLOSEST_POINT];
-    index_r = new int[TOP_N_CLOSEST_POINT];
+    index_m = new int[TOP_N_CLOSEST_POINT];
+    index_b = new int[TOP_N_CLOSEST_POINT];
 
     FILE* out = fopen("./data/detail.txt", "w");
-    int totalQueryTime = 0, totalProbNum = 0, totalFindTime = 0, hit = 0;
-    float totalRatio = 0.0;
-    printf("[Main] medranking ...\n");
+    int totalMedrankQueryTime = 0;
+    int totalBFQueryTime = 0;
+    int totalProbNum = 0;
+    int m_hit = 0, b_hit = 0, probNum;
+
+    printf("[Main] predicting ...\n");
     for (int i = 0; i < querySize; ++i) {
         // project a query point on 50 lines, save the project value in <queryProjectVal>
         u.project(query[i], queryProjectVal);
         
-        int probNum = 0;
-        t = clock();
-        // use the b+ tree index and <queryProjectVal> to find a approximate closest point
+        // use the b+ tree index and <queryProjectVal> to find
         // save the number of accessing pages in <probNum>
-        m.medrank(trees, queryProjectVal, probNum, index_a);
-        totalQueryTime += clock() - t;
+        probNum = 0;
+        t = clock();
+        m.medrank(trees, queryProjectVal, probNum, index_m);
+        totalMedrankQueryTime += clock() - t;
         totalProbNum += probNum;
 
+        // find by bf
         t = clock();
-        // find the real closest point
-        m.findClosestPoint(data, query[i], index_r);
+        m.findClosestPoint(data, query[i], index_b);
         totalFindTime += clock() - t;
 
         // predict type (entity)
-        int type_a = u.predict(data, index_a, TOP_N_CLOSEST_POINT);
-        int type_r = u.predict(data, index_r, TOP_N_CLOSEST_POINT);
-        fprintf(out, "[Query %3d] %d (approximate), %d (real)\n", i+1, type_a, type_r);
-        if (type_a == type_r) ++hit;
+        int type_m = u.predict(data, index_a, TOP_N_CLOSEST_POINT);
+        int type_b = u.predict(data, index_r, TOP_N_CLOSEST_POINT);
+        fprintf(out, "[Query %3d] %d (medrank), %d (bf), %d(real).\n", i+1, type_m, type_b, query[i].type);
+        if (type_m == query[i].type) ++m_hit;
+        if (type_b == query[i].type) ++b_hit;
     }
     fclose(out);
 
-    printf("[Main] total query time: %fs\n", ((float)totalQueryTime)/CLOCKS_PER_SEC);
-    printf("[Main] average query time: %fs\n", ((float)totalQueryTime/querySize)/CLOCKS_PER_SEC);
-    printf("[Main] total time for finding closest point: %fs\n", ((float)totalFindTime)/CLOCKS_PER_SEC);
-    printf("[Main] average time for finding closest point: %fs\n", ((float)totalFindTime/querySize)/CLOCKS_PER_SEC);
+    // print experiment result
+    printf("[Main] total medrank query time: %fs\n", ((float)totalQueryTime)/CLOCKS_PER_SEC);
+    printf("[Main] average medrank query time: %fs\n", ((float)totalQueryTime/querySize)/CLOCKS_PER_SEC);
+    printf("[Main] total bf query time: %fs\n", ((float)totalFindTime)/CLOCKS_PER_SEC);
+    printf("[Main] average bf query time: %fs\n", ((float)totalFindTime/querySize)/CLOCKS_PER_SEC);
     printf("[Main] average probNum per line: %f\n", (float)totalProbNum/querySize/LINE_NUM);
-    printf("[Main] hit ratio: %f\n", (float)hit / querySize);
+    printf("[Main] medrank hit ratio: %f\n", (float)m_hit / querySize);
+    printf("[Main] bf hit ratio: %f\n", (float)b_hit / querySize);
     printf("[Main] please checkout ./data/detail.txt for more detail\n");
 
+    // clear resources
     delete [] dataFile;
     delete [] queryFile;
-    delete [] index_a;
-    delete [] index_r;
+    delete [] index_m;
+    delete [] index_b;
     delete [] trees;
     delete [] data;
     delete [] query;
