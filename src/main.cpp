@@ -106,11 +106,11 @@ int main(int argc, char* argv[]) {
         // find by bf
         t = clock();
         m.findClosestPoint(data, query[i], index_b);
-        totalFindTime += clock() - t;
+        totalBFQueryTime += clock() - t;
 
         // predict type (entity)
-        int type_m = u.predict(data, index_a, TOP_N_CLOSEST_POINT);
-        int type_b = u.predict(data, index_r, TOP_N_CLOSEST_POINT);
+        int type_m = u.predict(data, index_m, TOP_N_CLOSEST_POINT);
+        int type_b = u.predict(data, index_b, TOP_N_CLOSEST_POINT);
         fprintf(out, "[Query %3d] %d (medrank), %d (bf), %d(real).\n", i+1, type_m, type_b, query[i].type);
         if (type_m == query[i].type) ++m_hit;
         if (type_b == query[i].type) ++b_hit;
@@ -118,10 +118,10 @@ int main(int argc, char* argv[]) {
     fclose(out);
 
     // print experiment result
-    printf("[Main] total medrank query time: %fs\n", ((float)totalQueryTime)/CLOCKS_PER_SEC);
-    printf("[Main] average medrank query time: %fs\n", ((float)totalQueryTime/querySize)/CLOCKS_PER_SEC);
-    printf("[Main] total bf query time: %fs\n", ((float)totalFindTime)/CLOCKS_PER_SEC);
-    printf("[Main] average bf query time: %fs\n", ((float)totalFindTime/querySize)/CLOCKS_PER_SEC);
+    printf("[Main] total medrank query time: %fs\n", ((float)totalMedrankQueryTime)/CLOCKS_PER_SEC);
+    printf("[Main] average medrank query time: %fs\n", ((float)totalMedrankQueryTime/querySize)/CLOCKS_PER_SEC);
+    printf("[Main] total bf query time: %fs\n", ((float)totalBFQueryTime)/CLOCKS_PER_SEC);
+    printf("[Main] average bf query time: %fs\n", ((float)totalBFQueryTime/querySize)/CLOCKS_PER_SEC);
     printf("[Main] average probNum per line: %f\n", (float)totalProbNum/querySize/LINE_NUM);
     printf("[Main] medrank hit ratio: %f\n", (float)m_hit / querySize);
     printf("[Main] bf hit ratio: %f\n", (float)b_hit / querySize);
