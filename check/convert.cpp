@@ -8,7 +8,7 @@ int main() {
   fprintf(out, "window.onload = function() { var data = [");
   int type, r, g, b;
   for (int i = 0; i < 100; ++i) {
-    fscanf(in1, "[Query %3d] %d (approximate), %d (real)\n", &r, &type, &g);
+    fscanf(in1, "[Query %3d] %d (medrank), %d (bf), %d (real).\n", &r, &type, &g, &b);
     fscanf(in2, "%d %d %d", &r, &g, &b);
     fprintf(out, "{type:%d, color:\"rgb(%d, %d, %d)\"},", type, r, g, b);
   }

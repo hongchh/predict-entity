@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
         // predict type (entity)
         int type_m = u.predict(data, index_m, TOP_N_CLOSEST_POINT);
         int type_b = u.predict(data, index_b, TOP_N_CLOSEST_POINT);
-        fprintf(out, "[Query %3d] %d (medrank), %d (bf), %d(real).\n", i+1, type_m, type_b, query[i].type);
+        fprintf(out, "[Query %3d] %d (medrank), %d (bf), %d (real).\n", i+1, type_m, type_b, query[i].type);
         if (type_m == query[i].type) ++m_hit;
         if (type_b == query[i].type) ++b_hit;
     }
