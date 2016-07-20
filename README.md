@@ -263,9 +263,9 @@ cd ..
 * 示例(实验一查询集数据量100、500、1000; 实验二数据量较大，这里只给出查询集大小为100、200、300的示例):
 <pre>
 make
-./predict -n 58951 -d 3 -qn 100 -ds ./data/color-d.txt -qs ./data/color-q.txt
-./predict -n 58951 -d 3 -qn 500 -ds ./data/color-d.txt -qs ./data/color-q.txt
-./predict -n 58951 -d 3 -qn 1000 -ds ./data/color-d.txt -qs ./data/color-q.txt
+./predict -n 55344 -d 3 -qn 100 -ds ./data/color-d.txt -qs ./data/color-q.txt
+./predict -n 55344 -d 3 -qn 500 -ds ./data/color-d.txt -qs ./data/color-q.txt
+./predict -n 55344 -d 3 -qn 1000 -ds ./data/color-d.txt -qs ./data/color-q.txt
 ./predict -n 60000 -d 784 -qn 100 -ds ./data/Mnist-d.txt -qs ./data/Mnist-q.txt
 ./predict -n 60000 -d 784 -qn 200 -ds ./data/Mnist-d.txt -qs ./data/Mnist-q.txt
 ./predict -n 60000 -d 784 -qn 300 -ds ./data/Mnist-d.txt -qs ./data/Mnist-q.txt
